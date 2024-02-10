@@ -11,7 +11,10 @@ func main() {
 	listenAddr := flag.String("listenaddr", ":49999", "todo")
 	flag.Parse()
 
-	http.HandleFunc("/user", api.HandleGetUser)
+	http.HandleFunc("/url", api.HandleCreateNewURL)
+	http.HandleFunc("/user", api.HandleCreateNewURL)
+	http.HandleFunc("/user", api.HandleCreateNewURL)
+	http.HandleFunc("/user", api.HandleCreateNewURL)
 
 	http.ListenAndServe(*listenAddr, nil)
 }

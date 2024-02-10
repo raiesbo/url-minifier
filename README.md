@@ -20,7 +20,7 @@ The complete application is written in GO.
 | ------------------- | --------- | --------------- | ------ |
 | /                   | GET       |                 | Returns "Hello World!"  |
 | /url                | POST      | Your target URL | Returns the created `url_key` with additional info such a the `secret_key` |
-| /{`url_key`}        | GET       |                 | Redirects to the target URL |
-| /url/{`secret_key`} | GET       |                 | Returns the original URL the shorten version is based of |
-| /url/{`secret_key`} | DELETE    |                 | Removes the shortened URL |
-| /admin              | POST      | Password        | Returns a list of all the minified URLs |
+| /`{url_key}`        | GET       |                 | Redirects to the target URL |
+| /url/`{secret_key}` | GET       |                 | Returns the original URL the shorten version is based of |
+| /url/`{secret_key}` | DELETE    |                 | Removes the shortened URL |
+| /admin              | POST      | Secret passwrod | Returns a list of all the minified URLs |
