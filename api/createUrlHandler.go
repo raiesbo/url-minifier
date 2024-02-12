@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -22,8 +21,6 @@ func HandleCreateNewURL(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("The content of the body is not correct: %s", err)
 	}
 
-	fmt.Println("handlerBody", handlerBody)
-
 	// Validate URL
 	_, err = url.ParseRequestURI(handlerBody.URL)
 	if err != nil {
@@ -31,13 +28,17 @@ func HandleCreateNewURL(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Create Short URL
+	newURL := types.NewURL(handlerBody.URL, r.Host)
 
 	// Store in DB
 
 	// Return URL
+	urlJson, err := json.Marshal(newURL)
+	if err != nil {
+		log.Fatalf("Unable to transform to JSON: %s", err)
+	}
 
-	var longURL types.URL
-	_ = longURL
-
-	fmt.Print("Hello")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(urlJson)
 }
