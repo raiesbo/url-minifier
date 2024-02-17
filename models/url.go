@@ -1,4 +1,4 @@
-package types
+package models
 
 import (
 	"crypto/md5"
@@ -7,12 +7,12 @@ import (
 )
 
 type URL struct {
-	OriginalURL string
-	ShortURL    string
-	UrlKey      string
-	SecretKey   string
-	Slicks      int
-	CreatedAt   time.Time
+	OriginalURL string    `bson:"original_url,omitempty"`
+	ShortURL    string    `bson:"short_url,omitempty"`
+	UrlKey      string    `bson:"url_key,omitempty"`
+	SecretKey   string    `bson:"secret_key,omitempty"`
+	Clicks      int       `bson:"clicks,omitempty"`
+	CreatedAt   time.Time `bson:"created_at,omitempty"`
 }
 
 func NewURL(longURL string, host string) URL {

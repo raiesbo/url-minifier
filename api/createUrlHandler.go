@@ -6,8 +6,14 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/raiesbo/url-minifier/types"
+	"github.com/raiesbo/url-minifier/models"
 )
+
+var DbInstance *models.DBInstance
+
+func ScopeDBInstance(instance *models.DBInstance) {
+	DbInstance = instance
+}
 
 type HandlerBody struct {
 	URL string `json:"url"`
@@ -28,9 +34,10 @@ func HandleCreateNewURL(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Create Short URL
-	newURL := types.NewURL(handlerBody.URL, r.Host)
+	newURL := models.NewURL(handlerBody.URL, r.Host)
 
 	// Store in DB
+	DbInstance.StoreURL(newURL)
 
 	// Return URL
 	urlJson, err := json.Marshal(newURL)
