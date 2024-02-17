@@ -1,26 +1,33 @@
 # URL Minifier
 API that allows to create smaller URLs for any project.
 
-## Description
-In many cases, some URLs that we want to share, or directly from our own project, are really lengthy and verbous. With this applications the user is able to retrieve a extreainmy short version of a URL through a simple HTTP POST request.
+In many cases, some URLs that we want to share, or directly from our own project, are really lengthy and verbose. With this application, the user is able to retrieve a short version of a URL through a simple HTTP POST request.
 
-The complete application is written in GO.
+It has two different interfaces. On one hand we find the Visual interface found under the root URL `/` which will render a web page with a form to introduce the URL to shorten. On the other hand, the application exposes a public JSON API, which allows integrating third party applications with the same goal.
+
+The complete application is fully written in GO.
 
 ## Overview
 
 ### Features
-- The user is able to obtain a minified URL
+- The user is able to obtain a shortened URL through a graphical interface
+- The user is able to obtain a minified URL through a JSON API
 - The user is able to check the original URL based on a given secret key.
 - The user is able to remove the minified URL based on a given secreat
-
 
 ### Exposed API
 
 | Endpoint            | HTTP Verb | Request Body    | Action |
 | ------------------- | --------- | --------------- | ------ |
-| /                   | GET       |                 | Returns "Hello World!"  |
-| /url                | POST      | Your target URL | Returns the created `url_key` with additional info such a the `secret_key` |
-| /`{url_key}`        | GET       |                 | Redirects to the target URL |
-| /url/`{secret_key}` | GET       |                 | Returns the original URL the shorten version is based of |
-| /url/`{secret_key}` | DELETE    |                 | Removes the shortened URL |
-| /admin              | POST      | Secret passwrod | Returns a list of all the minified URLs |
+| /url                | POST      | Your target URL | Creates URL |
+| /`{url_key}`        | GET       |                 | Forwards to target URL |
+| /url/`{secret_key}` | GET       |                 | Retrieves URL information |
+| /url/`{secret_key}` | DELETE    |                 | Removes URL |
+| /admin              | POST      | Secret password | Retrives list of URLs |
+
+### Tech stack
+
+- Built with Go version 1.21
+- Uses the [Chi router](https://github.com/go-chi/chi/v5) package
+- Uses the [godotenv](https://github.com/joho/godotenv) package
+- Uses the [mongo-driver](https://pkg.go.dev/go.mongodb.org/mongo-driver/mongo) package
