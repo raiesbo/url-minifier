@@ -19,19 +19,19 @@ The complete application is fully written in GO.
 
 ### Exposed API
 
-| Endpoint            | HTTP Verb | Request Body    | Action |
-| ------------------- | --------- | --------------- | ------ |
-| /`{url_key}`        | GET       |                 | Forwards to target URL |
-| /api/url                | POST      | Your target URL | Creates URL |
-| /api/url/`{secret_key}` | GET       |                 | Retrieves URL information |
-| /api/url/`{secret_key}` | DELETE    |                 | Removes URL |
-| /api/admin              | POST      | Secret password | Retrives list of URLs |
+| Endpoint                | HTTP Verb | Request Body    | Action |
+| ----------------------- | --------- | --------------- | ------ |
+| `/{url_key}`            | GET       |                 | Forwards to target URL |
+| `/api/url`              | POST      | Your target URL | Creates URL |
+| `/api/url/{secret_key}` | GET       |                 | Retrieves URL information |
+| `/api/url/{secret_key}` | DELETE    |                 | Removes URL |
+| `/api/admin`            | POST      | Secret password | Retrives list of URLs |
 
 ### Getting Started
 
 ### Setup
 
-1. Install Golang v1.21 or above
+1. Install Go v1.21 or above
 2. Create a `.env` file in the root of the project with the variables listed below
 3. Run `go mod download` to install all the dependencies
 4. Run `go build -o app` to compile the project
@@ -44,7 +44,7 @@ The complete application is fully written in GO.
 
 ## Tech stack
 
-- Built with Go version 1.21
+- Built with [Go](https://go.dev/) version 1.21
 - Uses the [Chi router](https://github.com/go-chi/chi/v5) package
 - Uses the [godotenv](https://github.com/joho/godotenv) package
 - Uses the [mongo-driver](https://pkg.go.dev/go.mongodb.org/mongo-driver/mongo) package
