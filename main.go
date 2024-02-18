@@ -9,11 +9,8 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/joho/godotenv"
 	"github.com/raiesbo/url-minifier/api"
-	"github.com/raiesbo/url-minifier/config"
 	"github.com/raiesbo/url-minifier/models"
 )
-
-var app config.AppConfig
 
 var dbInstance models.DBInstance
 
@@ -25,8 +22,6 @@ func main() {
 	dbInstance = models.NewDBInstance(os.Getenv("DB_URI"))
 	dbInstance.Connect()
 	api.ScopeDBInstance(&dbInstance)
-
-	app.Env = os.Getenv("ENV")
 
 	mux := chi.NewRouter()
 

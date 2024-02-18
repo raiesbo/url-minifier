@@ -1,12 +1,13 @@
 package models
 
 import (
-	"crypto/md5"
-	"encoding/hex"
 	"time"
+
+	"github.com/raiesbo/url-minifier/utils"
 )
 
 type URL struct {
+	Id          string    `bson:"_id,omitempty"`
 	OriginalURL string    `bson:"original_url,omitempty"`
 	ShortURL    string    `bson:"short_url,omitempty"`
 	UrlKey      string    `bson:"url_key,omitempty"`
@@ -16,23 +17,21 @@ type URL struct {
 }
 
 func NewURL(longURL string, host string) URL {
-	text := longURL
-
-	hasher := md5.New()
-	hasher.Write([]byte(text))
-
-	urlKey := hex.EncodeToString(hasher.Sum(nil))[0:10]
+	urlKey := utils.CreateURLKey(10)
 
 	// Create short URL
 	shortURL := host + "/" + urlKey
 
 	// Create secret
+	secretKey := utils.CreateURLKey(15)
 
 	//Create URL object
 	newURL := URL{
 		OriginalURL: longURL,
 		UrlKey:      urlKey,
 		ShortURL:    shortURL,
+		SecretKey:   secretKey,
+		Clicks:      0,
 		CreatedAt:   time.Now().Local(),
 	}
 

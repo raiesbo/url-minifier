@@ -6,14 +6,17 @@ import (
 	"log"
 	"time"
 
+	"github.com/raiesbo/url-minifier/utils"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type DBInstance struct {
-	Uri    string
-	Client *mongo.Client
+	Uri        string
+	Client     *mongo.Client
+	Collection *mongo.Collection
 }
 
 func NewDBInstance(dbURI string) DBInstance {
@@ -41,12 +44,11 @@ func (i *DBInstance) Connect() {
 	// }()
 
 	i.Client = client
+	i.Collection = client.Database(utils.DATABASE).Collection(utils.COLLENTION)
 }
 
 func (i *DBInstance) StoreURL(url URL) {
-	coll := i.Client.Database("URLMinifier").Collection("urls")
-
-	result, err := coll.InsertOne(context.TODO(), url)
+	result, err := i.Collection.InsertOne(context.TODO(), url)
 	if err != nil {
 		panic(err)
 	}
@@ -55,10 +57,8 @@ func (i *DBInstance) StoreURL(url URL) {
 }
 
 func (i *DBInstance) FindURL(urlKey string) URL {
-	coll := i.Client.Database("URLMinifier").Collection("urls")
-
 	var result URL
-	err := coll.FindOne(context.TODO(), bson.D{{"url_key", urlKey}}).Decode(&result)
+	err := i.Collection.FindOne(context.TODO(), bson.D{{"url_key", urlKey}}).Decode(&result)
 	if err == mongo.ErrNoDocuments {
 		fmt.Printf("No document was found with the urlKey %s\n", urlKey)
 	}
@@ -67,4 +67,16 @@ func (i *DBInstance) FindURL(urlKey string) URL {
 	}
 
 	return result
+}
+
+func (i *DBInstance) UpdateURLCounter(url URL) {
+	id, _ := primitive.ObjectIDFromHex(url.Id)
+	filter := bson.D{{"_id", id}}
+	update := bson.D{{"$inc", bson.D{{"clicks", 1}}}}
+
+	// Updates the first document that has the specified "_id" value
+	_, err := i.Collection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		panic(err)
+	}
 }

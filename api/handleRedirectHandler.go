@@ -13,6 +13,9 @@ func HandleRedirectHandler(w http.ResponseWriter, r *http.Request) {
 	// Find URL from urlKey
 	result := DbInstance.FindURL(urlKey)
 
+	// Update clics counter
+	DbInstance.UpdateURLCounter(result)
+
 	// Redirect
 	http.Redirect(w, r, result.OriginalURL, http.StatusSeeOther)
 }
