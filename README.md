@@ -21,11 +21,11 @@ The complete application is fully written in GO.
 
 | Endpoint            | HTTP Verb | Request Body    | Action |
 | ------------------- | --------- | --------------- | ------ |
-| /url                | POST      | Your target URL | Creates URL |
 | /`{url_key}`        | GET       |                 | Forwards to target URL |
-| /url/`{secret_key}` | GET       |                 | Retrieves URL information |
-| /url/`{secret_key}` | DELETE    |                 | Removes URL |
-| /admin              | POST      | Secret password | Retrives list of URLs |
+| /api/url                | POST      | Your target URL | Creates URL |
+| /api/url/`{secret_key}` | GET       |                 | Retrieves URL information |
+| /api/url/`{secret_key}` | DELETE    |                 | Removes URL |
+| /api/admin              | POST      | Secret password | Retrives list of URLs |
 
 ### Getting Started
 
@@ -39,8 +39,8 @@ The complete application is fully written in GO.
 
 ### Environment Variables
 
-- DB_URI: MongoDB connection URI connection
-- PORT: Port in which the project will run
+- `DB_URI`: MongoDB connection URI connection
+- `PORT`: Port in which the project will run
 
 ## Tech stack
 
@@ -48,3 +48,4 @@ The complete application is fully written in GO.
 - Uses the [Chi router](https://github.com/go-chi/chi/v5) package
 - Uses the [godotenv](https://github.com/joho/godotenv) package
 - Uses the [mongo-driver](https://pkg.go.dev/go.mongodb.org/mongo-driver/mongo) package
+- Uses the [htmx](https://htmx.org/) framework

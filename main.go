@@ -5,8 +5,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 	"github.com/joho/godotenv"
 	"github.com/raiesbo/url-minifier/api"
 	"github.com/raiesbo/url-minifier/models"
@@ -23,21 +21,7 @@ func main() {
 	dbInstance.Connect()
 	api.ScopeDBInstance(&dbInstance)
 
-	mux := chi.NewRouter()
-
-	mux.Use(middleware.Logger)
-	mux.Use(middleware.Recoverer)
-
-	mux.Get("/", api.HandleHome)
-	mux.Post("/url", api.HandleCreateNewURL)
-	mux.Get("/{urlKey}", api.HandleRedirectHandler)
-	mux.Get("/admin", api.HandleCreateNewURL)
-	mux.Delete("/admin", api.HandleCreateNewURL)
-
 	serverPort := os.Getenv("PORT")
-
 	log.Printf("Listening to Port %v", serverPort)
-
-	err := http.ListenAndServe(":"+serverPort, mux)
-	log.Fatal(err)
+	log.Fatal(http.ListenAndServe(":"+serverPort, routes()))
 }

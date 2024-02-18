@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -16,7 +17,8 @@ func ScopeDBInstance(instance *models.DBInstance) {
 }
 
 type HandlerBody struct {
-	URL string `json:"url"`
+	URL    string `json:"url"`
+	Origin string `json:"origin"`
 }
 
 func HandleCreateNewURL(w http.ResponseWriter, r *http.Request) {
@@ -38,6 +40,19 @@ func HandleCreateNewURL(w http.ResponseWriter, r *http.Request) {
 
 	// Store in DB
 	DbInstance.StoreURL(newURL)
+
+	// Send back HTML template
+	if handlerBody.Origin == "HomePage" {
+		html := fmt.Sprintf(`<div>
+		<p>%s</p>
+		<p>%s</p>
+		<p>%s</p>
+		</div>`, newURL.OriginalURL, newURL.ShortURL, newURL.SecretKey)
+		w.Header().Set("Content-Type", "text/html")
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(html))
+		return
+	}
 
 	// Return URL
 	urlJson, err := json.Marshal(newURL)
