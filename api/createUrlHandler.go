@@ -43,7 +43,7 @@ func HandleCreateNewURL(w http.ResponseWriter, r *http.Request) {
 
 	// Send back HTML template
 	if handlerBody.Origin == "HomePage" {
-		html := fmt.Sprintf(`<div>
+		html := fmt.Sprintf(`<div class="output">
 		<p>%s</p>
 		<p>%s</p>
 		<p>%s</p>

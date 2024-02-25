@@ -13,17 +13,21 @@
     <title>Home Page</title>
 </head>
 
-<body>
-    <h1>URL Minifier</h1>
-    <form hx-target="#result" hx-post="/api/url" hx-ext='json-enc' hx-headers='{"Content-Type": "application/json"}'
-        hx-vals='{"origin": "HomePage"}'>
-        <div>
-            <label for="input">Email Address</label>
-            <input type="text" id="input" name="url" placeholder=" Type your URL to minify" required>
-        </div>
-        <button>Submit</button>
-    </form>
-    <div id="result"></div>
+<body class="body">
+    <header>
+        <h1>URL Minifier</h1>
+    </header>
+    <main>
+        <form class="form" hx-target="#result" hx-post="/api/url" hx-ext='json-enc'
+            hx-headers='{"Content-Type": "application/json"}' hx-vals='{"origin": "HomePage"}'>
+            <div class="content-wrapper">
+                <label for="input">Email Address</label>
+                <input type="text" id="input" name="url" placeholder=" Type your URL to minify" required>
+            </div>
+            <button>Submit URL</button>
+        </form>
+        <div id="result"></div>
+    </main>
 </body>
 
 </html>
