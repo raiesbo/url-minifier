@@ -1,12 +1,12 @@
 # URL Minifier
 
-API that allows to create smaller URLs for any project.
+API that allows creating shorter URLs for any project.
 
-In many cases, some URLs that we want to share, or directly from our own project, are really lengthy and verbose. With this application, the user is able to retrieve a short version of a URL through a simple HTTP POST request.
+In many cases, some URLs that we want to share, or directly from our own project, are excessively long and verbose. With this application, users can obtain a concise version of a URL through a straightforward HTTP POST request.
 
-It has two different interfaces. On one hand we find the Visual interface found under the root URL `/` which will render a web page with a form to introduce the URL to shorten. On the other hand, the application exposes a public JSON API, which allows integrating third party applications with the same goal.
+The application provides two distinct interfaces. On one hand, there is the Visual interface located at the root URL /, which renders a web page with a form for entering the URL to be shortened. On the other hand, the application exposes a public JSON API, enabling the integration of third-party applications with the same objective.
 
-The complete application is fully written in GO.
+The entire application is written entirely in GO.
 
 ## Overview
 
