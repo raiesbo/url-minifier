@@ -44,7 +44,7 @@ func (i *DBInstance) Connect() {
 	// }()
 
 	i.Client = client
-	i.Collection = client.Database(utils.DATABASE).Collection(utils.COLLENTION)
+	i.Collection = client.Database(utils.DATABASE).Collection(utils.COLLECTION_URLS)
 }
 
 func (i *DBInstance) StoreURL(url URL) {

@@ -1,6 +1,7 @@
 package utils
 
 const (
-	DATABASE   = "URLMinifier"
-	COLLENTION = "urls"
+	DATABASE         = "URLMinifier"
+	COLLECTION_URLS  = "urls"
+	COLLECTION_USERS = "users"
 )

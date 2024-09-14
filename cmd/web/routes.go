@@ -20,8 +20,8 @@ func routes() *chi.Mux {
 	mux.Delete("/api/admin", HandleCreateNewURL)
 
 	// To serve static files from the correct folder
-	fileServe := http.FileServer(http.Dir("./static/"))
-	mux.Handle("/static/*", http.StripPrefix("/static", fileServe))
+	fileServe := http.FileServer(http.Dir("./ui/static/"))
+	mux.Handle("/ui/static/*", http.StripPrefix("/ui/static", fileServe))
 
 	return mux
 }
