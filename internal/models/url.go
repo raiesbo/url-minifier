@@ -3,7 +3,7 @@ package models
 import (
 	"time"
 
-	"github.com/raiesbo/url-minifier/utils"
+	"github.com/raiesbo/url-minifier/internal/utils"
 )
 
 type URL struct {

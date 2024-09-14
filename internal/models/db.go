@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/raiesbo/url-minifier/utils"
+	"github.com/raiesbo/url-minifier/internal/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"

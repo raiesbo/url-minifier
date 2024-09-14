@@ -1,4 +1,4 @@
-package api
+package main
 
 import (
 	"encoding/json"
@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/raiesbo/url-minifier/models"
+	"github.com/raiesbo/url-minifier/internal/models"
 )
 
 var DbInstance *models.DBInstance

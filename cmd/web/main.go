@@ -7,8 +7,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/raiesbo/url-minifier/api"
-	"github.com/raiesbo/url-minifier/models"
+	"github.com/raiesbo/url-minifier/internal/models"
 )
 
 var dbInstance models.DBInstance
@@ -20,7 +19,7 @@ func main() {
 
 	dbInstance = models.NewDBInstance(os.Getenv("DB_URI"))
 	dbInstance.Connect()
-	api.ScopeDBInstance(&dbInstance)
+	ScopeDBInstance(&dbInstance)
 
 	serverPort := os.Getenv("PORT")
 	log.Printf("Listening to Port %v", serverPort)
