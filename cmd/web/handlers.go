@@ -3,25 +3,26 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"net/url"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/raiesbo/url-minifier/internal/models"
 )
-
-var DbInstance *models.DBInstance
-
-func ScopeDBInstance(instance *models.DBInstance) {
-	DbInstance = instance
-}
 
 type HandlerBody struct {
 	URL    string `json:"url"`
 	Origin string `json:"origin"`
 }
 
-func HandleCreateNewURL(w http.ResponseWriter, r *http.Request) {
+func (app *application) handleHome(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles("./ui/html/home.page.htm"))
+	tmpl.Execute(w, nil)
+}
+
+func (app *application) handleCreateNewURL(w http.ResponseWriter, r *http.Request) {
 	var handlerBody HandlerBody
 
 	err := json.NewDecoder(r.Body).Decode(&handlerBody)
@@ -39,7 +40,7 @@ func HandleCreateNewURL(w http.ResponseWriter, r *http.Request) {
 	newURL := models.NewURL(handlerBody.URL, r.Host)
 
 	// Store in DB
-	DbInstance.StoreURL(newURL)
+	app.urls.StoreURL(newURL)
 
 	// Send back HTML template
 	if handlerBody.Origin == "HomePage" {
@@ -63,4 +64,20 @@ func HandleCreateNewURL(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(urlJson)
+}
+func (app *application) handleRedirectHandler(w http.ResponseWriter, r *http.Request) {
+	// Get urlKey
+	urlKey := chi.URLParam(r, "urlKey")
+
+	// Find URL from urlKey
+	result, err := app.urls.FindURL(urlKey)
+	if err != nil {
+		panic(err)
+	}
+
+	// Update clics counter
+	app.urls.UpdateURLCounter(result.Id)
+
+	// Redirect
+	http.Redirect(w, r, result.OriginalURL, http.StatusSeeOther)
 }
