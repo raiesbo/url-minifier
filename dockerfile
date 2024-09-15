@@ -1,12 +1,14 @@
-FROM golang:1.21
+FROM golang:1.23.1
 
 WORKDIR /app
 
+COPY go.mod go.sum ./
+
+RUN go mod download && go mod verify
+
 COPY . .
 
-RUN go mod download
-
-RUN CGO_ENABLED=0 GOOS=linux go build -o server
+RUN CGO_ENABLED=0 GOOS=linux go build -o server ./cmd/web
 
 EXPOSE 8080
 
