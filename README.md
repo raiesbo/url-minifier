@@ -10,6 +10,10 @@ The entire application is written entirely in GO.
 
 ## Overview
 
+### System
+
+![Project system diagram](./others/URLShortenerDiagram.png)
+
 ### Features
 
 - The user is able to obtain a shortened URL through a graphical interface
