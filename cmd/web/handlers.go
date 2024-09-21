@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/go-chi/chi/v5"
 	"github.com/raiesbo/url-minifier/internal/models"
 )
 
@@ -18,7 +17,7 @@ type HandlerBody struct {
 }
 
 func (app *application) handleHome(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("./ui/html/home.page.htm"))
+	tmpl := template.Must(template.ParseFiles("./ui/html/pages/home.tmpl"))
 	tmpl.Execute(w, nil)
 }
 
@@ -67,7 +66,7 @@ func (app *application) handleCreateNewURL(w http.ResponseWriter, r *http.Reques
 }
 func (app *application) handleRedirectHandler(w http.ResponseWriter, r *http.Request) {
 	// Get urlKey
-	urlKey := chi.URLParam(r, "urlKey")
+	urlKey := r.PathValue("urlKey")
 
 	// Find URL from urlKey
 	result, err := app.urls.FindURL(urlKey)

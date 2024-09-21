@@ -25,10 +25,10 @@ func NewURL(longURL string, host string) URL {
 	urlKey := utils.CreateURLKey(10)
 
 	// Create short URL
-	shortURL := host + "/" + urlKey
+	shortURL := fmt.Sprintf("%s/%s", host, urlKey)
 
 	// Create secret
-	secretKey := utils.CreateURLKey(15)
+	secretKey := utils.CreateURLKey(10)
 
 	//Create URL object
 	newURL := URL{
