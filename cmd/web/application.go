@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	toolkit "github.com/raiesbo/sever-toolkit"
+	toolkit "github.com/raiesbo/server-toolkit"
 	"github.com/raiesbo/url-minifier/internal/models"
 	"github.com/raiesbo/url-minifier/internal/utils"
 	"go.mongodb.org/mongo-driver/mongo"

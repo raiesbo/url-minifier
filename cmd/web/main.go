@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	toolkit "github.com/raiesbo/sever-toolkit"
+	toolkit "github.com/raiesbo/server-toolkit"
 	"github.com/raiesbo/url-minifier/internal/models"
 )
 
