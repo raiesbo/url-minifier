@@ -11,11 +11,10 @@ func (app *application) routes() *http.ServeMux {
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
+	// Routes
 	mux.Handle("GET /{$}", logger(http.HandlerFunc(app.handleHome)))
 	mux.Handle("POST /{$}", logger(http.HandlerFunc(app.handleCreateNewURL)))
-	// mux.Handle("GET /{urlKey}", logger(http.HandlerFunc(app.handleRedirectHandler)))
-	// mux.Handle("GET /api/admin", logger(http.HandlerFunc(app.handleCreateNewURL)))
-	// mux.Handle("DELETE /api/admin", logger(http.HandlerFunc(app.handleCreateNewURL)))
+	mux.Handle("GET /{urlKey}", logger(http.HandlerFunc(app.handleRedirectHandler)))
 
 	return mux
 }

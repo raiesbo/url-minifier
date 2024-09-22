@@ -38,6 +38,19 @@ func (app *application) handleCreateNewURL(w http.ResponseWriter, r *http.Reques
 		log.Fatalf("The URL is not valid: %s", err)
 	}
 
+	// Check if already exists and return
+	existingURL, err := app.urls.FindByLongURL(form.LongURL)
+	if err == nil {
+		data := urlShortenForm{
+			LongURL:  existingURL.OriginalURL,
+			ShortURL: existingURL.ShortURL,
+		}
+		if err = app.tk.RenderTmpl(w, r, "home.tmpl", http.StatusAccepted, data); err != nil {
+			log.Fatal(err)
+		}
+		return
+	}
+
 	// Create Short URL
 	newURL := models.NewURL(form.LongURL, r.Host)
 
@@ -58,7 +71,7 @@ func (app *application) handleRedirectHandler(w http.ResponseWriter, r *http.Req
 	urlKey := r.PathValue("urlKey")
 
 	// Find URL from urlKey
-	result, err := app.urls.FindURL(urlKey)
+	result, err := app.urls.FindByKey(urlKey)
 	if err != nil {
 		panic(err)
 	}

@@ -2,11 +2,14 @@
 
 API that allows creating shorter URLs for any project.
 
-In many cases, some URLs that we want to share, or directly from our own project, are excessively long and verbose. With this application, users can obtain a concise version of a URL through a straightforward HTTP POST request.
+In many cases, some URLs that we want to share, or directly from our own project, are excessively long and verbose.
+With this application, users can obtain a concise version of a URL through a straightforward HTTP POST request.
 
-The application provides two distinct interfaces. On one hand, there is the Visual interface located at the root URL /, which renders a web page with a form for entering the URL to be shortened. On the other hand, the application exposes a public JSON API, enabling the integration of third-party applications with the same objective.
+The application provides two distinct interfaces. On one hand, there is the Visual interface located at the root URL /,
+which renders a web page with a form for entering the URL to be shortened. On the other hand, the application exposes
+a public JSON API, enabling the integration of third-party applications with the same objective.
 
-The entire application is written entirely in GO.
+The entire application is written entirely in [Go](https://go.dev/).
 
 ## Overview
 
@@ -48,6 +51,7 @@ The entire application is written entirely in GO.
 
 ## Tech stack
 
-- Built with [Go](https://go.dev/) version 1.22
+- Built with [Go](https://go.dev/) v1.23
 - Uses the [godotenv](https://github.com/joho/godotenv) package
 - Uses the [mongo-driver](https://pkg.go.dev/go.mongodb.org/mongo-driver/mongo) package
+- Uses the [server-toolkit](https://github.com/raiesbo/server-toolkit) package

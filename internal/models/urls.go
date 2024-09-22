@@ -55,9 +55,9 @@ func (m *UrlModel) StoreURL(url URL) error {
 	return nil
 }
 
-func (m *UrlModel) FindURL(urlKey string) (URL, error) {
+func (m *UrlModel) FindByKey(urlKey string) (URL, error) {
 	var result URL
-	err := m.DB.FindOne(context.TODO(), bson.D{{"url_key", urlKey}}).Decode(&result)
+	err := m.DB.FindOne(context.TODO(), bson.D{{Key: "url_key", Value: urlKey}}).Decode(&result)
 	if err == mongo.ErrNoDocuments {
 		fmt.Printf("No document was found with the urlKey %s\n", urlKey)
 	}
@@ -68,10 +68,23 @@ func (m *UrlModel) FindURL(urlKey string) (URL, error) {
 	return result, nil
 }
 
+func (m *UrlModel) FindByLongURL(longURL string) (*URL, error) {
+	var result *URL
+	err := m.DB.FindOne(context.TODO(), bson.D{{Key: "original_url", Value: longURL}}).Decode(&result)
+	// if err == mongo.ErrNoDocuments {
+	// 	fmt.Printf("No document was found with the urlKey %s\n", longURL)
+	// }
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
 func (m *UrlModel) UpdateURLCounter(urlId string) error {
 	id, _ := primitive.ObjectIDFromHex(urlId)
-	filter := bson.D{{"_id", id}}
-	update := bson.D{{"$inc", bson.D{{"clicks", 1}}}}
+	filter := bson.D{{Key: "_id", Value: id}}
+	update := bson.D{{Key: "$inc", Value: bson.D{{Key: "clicks", Value: 1}}}}
 
 	// Updates the first document that has the specified "_id" value
 	_, err := m.DB.UpdateOne(context.TODO(), filter, update)
