@@ -1,50 +1,27 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script
-            src="https://unpkg.com/htmx.org@1.9.10"
-            integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
-            crossorigin="anonymous"
-        ></script>
-        <link
-            rel="icon"
-            type="image/x-icon"
-            href="/static/images/favicon.ico"
-        />
-        <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
-        <link rel="stylesheet" href="/static/css/styles.css" />
-        <title>Home Page</title>
-    </head>
+{{define "main"}}
+<section class="intro">
+    <p>Simplify your online sharing with our free URL shortener!</p>
+    <ul class="features">
+        <li>Create compact, easy-to-share links</li>
+        <li>Reduce character count for social media posts</li>
+        <li>Track click-through rates with ease</li>
+    </ul>
+</section>
 
-    <body class="body">
-        <header>
-            <h1>URL Minifier</h1>
-        </header>
-        <main>
-            <form
-                class="form"
-                hx-target="#result"
-                hx-post="/api/url"
-                hx-ext="json-enc"
-                hx-headers='{"Content-Type": "application/json"}'
-                hx-vals='{"origin": "HomePage"}'
-            >
-                <div class="content-wrapper">
-                    <label for="input">Email Address</label>
-                    <input
-                        type="text"
-                        id="input"
-                        name="url"
-                        placeholder="Type your URL to minify"
-                        required
-                    />
-                </div>
-                <button>Submit URL</button>
-            </form>
-            <div id="result"></div>
-        </main>
-    </body>
-</html>
+<section class="url-shortener">
+    <form class="url-form" action="/" method="POST">
+        <label for="long-url">Enter your long URL:</label>
+        <div class="input-group">
+            <input type="url" id="long-url" value="{{.LongURL}}" name="long-url" placeholder="https://example.com/your-long-url-here" required>
+            <button type="submit">Shorten URL</button>
+        </div>
+    </form>
+
+    {{if .ShortURL}}
+    <div class="result">
+        <h2>Your Shortened URL:</h2>
+        <a href="{{.ShortURL}}" target="_blank">{{.ShortURL}}</a>
+    </div>
+    {{end}}
+</section>
+{{end}}

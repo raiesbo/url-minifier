@@ -49,7 +49,5 @@ The entire application is written entirely in GO.
 ## Tech stack
 
 - Built with [Go](https://go.dev/) version 1.22
-- Uses the [Chi router](https://github.com/go-chi/chi/v5) package
 - Uses the [godotenv](https://github.com/joho/godotenv) package
 - Uses the [mongo-driver](https://pkg.go.dev/go.mongodb.org/mongo-driver/mongo) package
-- Uses the [htmx](https://htmx.org/) framework

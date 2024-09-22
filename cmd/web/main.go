@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	toolkit "github.com/raiesbo/sever-toolkit"
 	"github.com/raiesbo/url-minifier/internal/models"
 )
 
@@ -18,6 +19,10 @@ func main() {
 	app := application{
 		urls:  &models.UrlModel{},
 		users: &models.UserModel{},
+		tk: &toolkit.Toolkit{
+			TmplsDir:    "./ui/html/pages/",
+			BaseTmplDir: "./ui/html/partials/layout.tmpl",
+		},
 	}
 
 	app.connect(os.Getenv("DB_URI"))

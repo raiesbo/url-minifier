@@ -1,68 +1,57 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"net/url"
 
 	"github.com/raiesbo/url-minifier/internal/models"
+	"github.com/raiesbo/url-minifier/internal/validator"
 )
 
-type HandlerBody struct {
-	URL    string `json:"url"`
-	Origin string `json:"origin"`
+type urlShortenForm struct {
+	LongURL  string
+	ShortURL string
+	validator.Validator
 }
 
 func (app *application) handleHome(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("./ui/html/pages/home.tmpl"))
-	tmpl.Execute(w, nil)
+	data := urlShortenForm{
+		LongURL: "",
+	}
+
+	app.tk.RenderTmpl(w, r, "home.tmpl", http.StatusOK, data)
 }
 
 func (app *application) handleCreateNewURL(w http.ResponseWriter, r *http.Request) {
-	var handlerBody HandlerBody
+	if err := r.ParseForm(); err != nil {
+		log.Fatal(err)
+	}
 
-	err := json.NewDecoder(r.Body).Decode(&handlerBody)
-	if err != nil {
-		log.Fatalf("The content of the body is not correct: %s", err)
+	form := urlShortenForm{
+		LongURL: r.FormValue("long-url"),
 	}
 
 	// Validate URL
-	_, err = url.ParseRequestURI(handlerBody.URL)
+	_, err := url.ParseRequestURI(form.LongURL)
 	if err != nil {
 		log.Fatalf("The URL is not valid: %s", err)
 	}
 
 	// Create Short URL
-	newURL := models.NewURL(handlerBody.URL, r.Host)
+	newURL := models.NewURL(form.LongURL, r.Host)
 
 	// Store in DB
 	app.urls.StoreURL(newURL)
 
-	// Send back HTML template
-	if handlerBody.Origin == "HomePage" {
-		html := fmt.Sprintf(`<div class="output">
-		<p>%s</p>
-		<p>%s</p>
-		<p>%s</p>
-		</div>`, newURL.OriginalURL, newURL.ShortURL, newURL.SecretKey)
-		w.Header().Set("Content-Type", "text/html")
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(html))
-		return
+	data := urlShortenForm{
+		LongURL:  newURL.OriginalURL,
+		ShortURL: newURL.ShortURL,
 	}
 
-	// Return URL
-	urlJson, err := json.Marshal(newURL)
-	if err != nil {
-		log.Fatalf("Unable to transform to JSON: %s", err)
+	if err = app.tk.RenderTmpl(w, r, "home.tmpl", http.StatusAccepted, data); err != nil {
+		log.Fatal(err)
 	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(urlJson)
 }
 func (app *application) handleRedirectHandler(w http.ResponseWriter, r *http.Request) {
 	// Get urlKey

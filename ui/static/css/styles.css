@@ -1,0 +1,204 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto+Mono&display=swap");
+
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #50e3c2;
+    --background-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --input-background: #2c2c2c;
+    --border-radius: 8px;
+    --heading-font: "Poppins", sans-serif;
+    --body-font: "Roboto", sans-serif;
+    --mono-font: "Roboto Mono", monospace;
+}
+
+body {
+    font-family: var(--body-font);
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.site-header {
+    background-color: #222;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.site-title {
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+    font-size: 2.8rem;
+    margin: 0;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+main {
+    flex-grow: 1;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.intro,
+.url-shortener {
+    margin-bottom: 2rem;
+}
+
+.intro p {
+    font-family: var(--heading-font);
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+}
+
+.features {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    margin: 1.5rem 0;
+    list-style-type: none;
+    gap: 1rem;
+}
+
+.features li {
+    background-color: var(--secondary-color);
+    color: #1a1a1a;
+    padding: 0.7rem 1rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    text-align: center;
+    flex-basis: 30%;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    font-family: var(--heading-font);
+    font-size: 0.9rem;
+}
+
+.features li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.url-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-family: var(--heading-font);
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+}
+
+.input-group input {
+    flex-grow: 1;
+    padding: 0.7rem;
+    border: 2px solid #444;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    background-color: var(--input-background);
+    color: var(--text-color);
+    font-family: var(--mono-font);
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.input-group button {
+    padding: 0.7rem 1.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: var(--heading-font);
+    font-weight: 600;
+}
+
+.input-group button:hover {
+    background-color: #3a7bc8;
+}
+
+.result {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: var(--input-background);
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.result h2 {
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.result a {
+    font-family: var(--mono-font);
+    color: var(--secondary-color);
+    text-decoration: none;
+    word-break: break-all;
+}
+
+.result a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    background-color: #222;
+    color: var(--text-color);
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto;
+    font-family: var(--body-font);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .site-header {
+        padding: 1rem;
+    }
+
+    .site-title {
+        font-size: 2.2rem;
+    }
+
+    main {
+        padding: 1rem;
+    }
+
+    .features {
+        flex-direction: column;
+    }
+
+    .features li {
+        flex-basis: auto;
+    }
+
+    .input-group {
+        flex-direction: column;
+    }
+
+    .input-group button {
+        width: 100%;
+    }
+}
