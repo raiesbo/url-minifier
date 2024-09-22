@@ -1,9 +1,10 @@
 module github.com/raiesbo/url-minifier
 
-go 1.23
+go 1.23.1
 
 require (
 	github.com/joho/godotenv v1.5.1
+	github.com/raiesbo/server-toolkit v0.0.0-20240922090933-788c332de1e1
 	go.mongodb.org/mongo-driver v1.14.0
 )
 
