@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	toolkit "github.com/raiesbo/server-toolkit"
+	"github.com/raiesbo/servertools"
 	"github.com/raiesbo/url-minifier/internal/models"
 	"github.com/raiesbo/url-minifier/internal/utils"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -15,7 +15,7 @@ import (
 type application struct {
 	urls  *models.UrlModel
 	users *models.UserModel
-	tk    *toolkit.Toolkit
+	servertools.Tools
 }
 
 func (app *application) connect(uri string) {

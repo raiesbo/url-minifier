@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	toolkit "github.com/raiesbo/server-toolkit"
+	"github.com/raiesbo/servertools"
 	"github.com/raiesbo/url-minifier/internal/models"
 )
 
@@ -19,7 +19,7 @@ func main() {
 	app := application{
 		urls:  &models.UrlModel{},
 		users: &models.UserModel{},
-		tk: &toolkit.Toolkit{
+		Tools: servertools.Tools{
 			TmplsDir:    "./ui/html/pages/",
 			BaseTmplDir: "./ui/html/partials/layout.tmpl",
 		},

@@ -20,7 +20,7 @@ func (app *application) handleHome(w http.ResponseWriter, r *http.Request) {
 		LongURL: "",
 	}
 
-	app.tk.RenderTmpl(w, r, "home.tmpl", http.StatusOK, data)
+	app.RenderTmpl(w, r, "home.tmpl", http.StatusOK, data)
 }
 
 func (app *application) handleCreateNewURL(w http.ResponseWriter, r *http.Request) {
@@ -45,7 +45,7 @@ func (app *application) handleCreateNewURL(w http.ResponseWriter, r *http.Reques
 			LongURL:  existingURL.OriginalURL,
 			ShortURL: existingURL.ShortURL,
 		}
-		if err = app.tk.RenderTmpl(w, r, "home.tmpl", http.StatusAccepted, data); err != nil {
+		if err = app.RenderTmpl(w, r, "home.tmpl", http.StatusAccepted, data); err != nil {
 			log.Fatal(err)
 		}
 		return
@@ -62,7 +62,7 @@ func (app *application) handleCreateNewURL(w http.ResponseWriter, r *http.Reques
 		ShortURL: newURL.ShortURL,
 	}
 
-	if err = app.tk.RenderTmpl(w, r, "home.tmpl", http.StatusAccepted, data); err != nil {
+	if err = app.RenderTmpl(w, r, "home.tmpl", http.StatusAccepted, data); err != nil {
 		log.Fatal(err)
 	}
 }

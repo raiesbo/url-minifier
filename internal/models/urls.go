@@ -71,9 +71,6 @@ func (m *UrlModel) FindByKey(urlKey string) (URL, error) {
 func (m *UrlModel) FindByLongURL(longURL string) (*URL, error) {
 	var result *URL
 	err := m.DB.FindOne(context.TODO(), bson.D{{Key: "original_url", Value: longURL}}).Decode(&result)
-	// if err == mongo.ErrNoDocuments {
-	// 	fmt.Printf("No document was found with the urlKey %s\n", longURL)
-	// }
 	if err != nil {
 		return nil, err
 	}
