@@ -9,6 +9,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/raiesbo/servertools"
 	"github.com/raiesbo/url-minifier/internal/models"
+	"golang.org/x/time/rate"
 )
 
 func main() {
@@ -17,7 +18,7 @@ func main() {
 	}
 
 	app := application{
-		urls:  &models.UrlModel{},
+		urls:  &models.UrlRepository{},
 		users: &models.UserModel{},
 		Tools: servertools.Tools{
 			TmplsDir:    "./ui/html/pages/",
@@ -29,5 +30,7 @@ func main() {
 
 	serverPort := os.Getenv("PORT")
 	log.Printf("Listening to Port %v", serverPort)
-	log.Fatal(http.ListenAndServe(":"+serverPort, app.routes()))
+	if err := http.ListenAndServe(":"+serverPort, rateLimiter(app.routes(), rate.Limit(2), 10)); err != nil {
+		log.Fatal(err)
+	}
 }
