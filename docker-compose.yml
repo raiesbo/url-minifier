@@ -1,9 +1,7 @@
-version: "3.9"
-
 services:
   app:
     build: .
-    container_name: url-minifier 
+    container_name: url-minifier
     environment:
       PORT: 8085
       DB_URI: ${DB_URI}
@@ -17,7 +15,7 @@ services:
     container_name: mongo-db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_PASSWORD: 123456789
     ports:
       - "27017:27017"
     volumes:
