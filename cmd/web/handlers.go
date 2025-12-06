@@ -20,7 +20,9 @@ func (app *application) handleHome(w http.ResponseWriter, r *http.Request) {
 		LongURL: "",
 	}
 
-	app.RenderTmpl(w, r, "home.tmpl", http.StatusOK, data)
+	if err := app.RenderTmpl(w, r, "home.tmpl", http.StatusOK, data); err != nil {
+		panic(err)
+	}
 }
 
 func (app *application) handleCreateNewURL(w http.ResponseWriter, r *http.Request) {
@@ -51,11 +53,11 @@ func (app *application) handleCreateNewURL(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	// Create Short URL
 	newURL := models.NewURL(form.LongURL, r.Host)
 
-	// Store in DB
-	app.urls.StoreURL(newURL)
+	if err = app.urls.Store(newURL); err != nil {
+		log.Fatal(err)
+	}
 
 	data := urlShortenForm{
 		LongURL:  newURL.OriginalURL,
@@ -66,19 +68,20 @@ func (app *application) handleCreateNewURL(w http.ResponseWriter, r *http.Reques
 		log.Fatal(err)
 	}
 }
+
 func (app *application) handleRedirectHandler(w http.ResponseWriter, r *http.Request) {
-	// Get urlKey
 	urlKey := r.PathValue("urlKey")
 
-	// Find URL from urlKey
-	result, err := app.urls.FindByKey(urlKey)
+	foundURL, err := app.urls.FindByKey(urlKey)
 	if err != nil {
 		panic(err)
 	}
 
-	// Update clics counter
-	app.urls.UpdateURLCounter(result.Id)
+	// Update redirects counter
+	if err = app.urls.UpdateCounter(foundURL.Id); err != nil {
+		panic(err)
+	}
 
 	// Redirect
-	http.Redirect(w, r, result.OriginalURL, http.StatusSeeOther)
+	http.Redirect(w, r, foundURL.OriginalURL, http.StatusSeeOther)
 }

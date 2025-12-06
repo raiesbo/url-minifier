@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
@@ -21,7 +22,7 @@ type URL struct {
 	CreatedAt   time.Time `bson:"created_at,omitempty"`
 }
 
-func NewURL(longURL string, host string) URL {
+func NewURL(longURL string, host string) *URL {
 	urlKey := utils.CreateURLKey(10)
 
 	// Create short URL
@@ -31,23 +32,23 @@ func NewURL(longURL string, host string) URL {
 	secretKey := utils.CreateURLKey(10)
 
 	//Create URL object
-	newURL := URL{
+	return &URL{
 		OriginalURL: longURL,
 		UrlKey:      urlKey,
 		ShortURL:    shortURL,
 		SecretKey:   secretKey,
 		Clicks:      0,
-		CreatedAt:   time.Now().Local(),
+		CreatedAt:   time.Now(),
 	}
-
-	return newURL
 }
 
-type UrlModel struct {
+// UrlRepository encloses the store-related operations for creating and updating URLs
+type UrlRepository struct {
 	DB *mongo.Collection
 }
 
-func (m *UrlModel) StoreURL(url URL) error {
+// Store saves a URL
+func (m *UrlRepository) Store(url *URL) error {
 	_, err := m.DB.InsertOne(context.TODO(), url)
 	if err != nil {
 		return err
@@ -55,38 +56,29 @@ func (m *UrlModel) StoreURL(url URL) error {
 	return nil
 }
 
-func (m *UrlModel) FindByKey(urlKey string) (URL, error) {
+func (m *UrlRepository) FindByKey(urlKey string) (URL, error) {
 	var result URL
 	err := m.DB.FindOne(context.TODO(), bson.D{{Key: "url_key", Value: urlKey}}).Decode(&result)
-	if err == mongo.ErrNoDocuments {
+	if errors.Is(err, mongo.ErrNoDocuments) {
 		fmt.Printf("No document was found with the urlKey %s\n", urlKey)
 	}
-	if err != nil {
-		panic(err)
-	}
-
-	return result, nil
+	return result, err
 }
 
-func (m *UrlModel) FindByLongURL(longURL string) (*URL, error) {
+// FindByLongURL searches based on the long version of the URL
+func (m *UrlRepository) FindByLongURL(longURL string) (*URL, error) {
 	var result *URL
 	err := m.DB.FindOne(context.TODO(), bson.D{{Key: "original_url", Value: longURL}}).Decode(&result)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return result, err
 }
 
-func (m *UrlModel) UpdateURLCounter(urlId string) error {
+// UpdateCounter updates the number of URLs visits
+func (m *UrlRepository) UpdateCounter(urlId string) error {
 	id, _ := primitive.ObjectIDFromHex(urlId)
 	filter := bson.D{{Key: "_id", Value: id}}
 	update := bson.D{{Key: "$inc", Value: bson.D{{Key: "clicks", Value: 1}}}}
 
 	// Updates the first document that has the specified "_id" value
 	_, err := m.DB.UpdateOne(context.TODO(), filter, update)
-	if err != nil {
-		panic(err)
-	}
-	return nil
+	return err
 }

@@ -13,7 +13,7 @@ import (
 )
 
 type application struct {
-	urls  *models.UrlModel
+	urls  *models.UrlRepository
 	users *models.UserModel
 	servertools.Tools
 }
