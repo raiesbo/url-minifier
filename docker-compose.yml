@@ -11,7 +11,7 @@ services:
       - mongo
 
   mongo:
-    image: mongo:7
+    image: mongo:5
     container_name: mongo-db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
