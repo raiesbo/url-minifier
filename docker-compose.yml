@@ -4,23 +4,19 @@ services:
     container_name: url-minifier
     environment:
       PORT: 8085
-      DB_URI: ${DB_URI}
+      REDIS_URL: redis://redis:6379
     ports:
       - "8085:8085"
     depends_on:
-      - mongo
+      - redis
 
-  mongo:
-    image: mongo:5
-    container_name: mongo-db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: 123456789
+  redis:
+    image: redis:7
+    container_name: redis-db
     ports:
-      - "27017:27017"
+      - "6379:6379"
     volumes:
-      - mongo_data:/data/db
+      - redis_data:/data
 
 volumes:
-  mongo_data:
-
+  redis_data:
