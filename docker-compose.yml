@@ -4,7 +4,7 @@ services:
     container_name: url-minifier
     environment:
       PORT: 8085
-      REDIS_URL: redis://redis:6379
+      DB_URI: redis://redis:6379
     ports:
       - "8085:8085"
     depends_on:
